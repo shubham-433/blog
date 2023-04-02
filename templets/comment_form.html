@@ -1,0 +1,16 @@
+
+{% block body %}
+{% load crispy_forms_tags %}
+
+<h2>Add a new comment</h2>
+<form action="{% url "blog:post_comment" post.id %}" method="post">
+    <fieldset>
+        {{form.as_p}}
+        {% csrf_token %}
+
+    <p>
+        <input type="submit" value="Add Comment" class="btn btn-outline-primary" >
+    </p>
+ </fieldset>
+</form>
+{% endblock body %}

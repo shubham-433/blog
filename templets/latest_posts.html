@@ -1,0 +1,9 @@
+<div>
+    <ol>
+        {% for post in latest_posts %}
+        <li>
+            <a class="text-decoration-none" href="{{post.get_absolute_url}}">{{post.title}}</a>
+        </li>
+        {% endfor %}
+    </ol>
+</div>

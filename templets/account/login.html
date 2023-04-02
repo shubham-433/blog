@@ -1,0 +1,20 @@
+{% extends 'base-two.html' %}
+{% block body%}
+this is login page
+{% include 'account/message.html' %}
+<form action="" method="post">
+   <fieldset class="container border p-5 w-50">
+    {% csrf_token %}
+    <!-- {{form.as_p}} -->
+    {% for fm in form %}
+    {{fm.label_tag}} {{fm}} {{fm.errors|striptags}}<br>
+    {% endfor %}
+
+    <button class="btn btn-primary">Login</button>
+    <div class="m-2">
+        <h6><a href="{% url 'blog:register' %}">Don't Have account| SignUp</a></h6>
+      </div>
+   </fieldset>
+   
+</form>
+{% endblock body%}

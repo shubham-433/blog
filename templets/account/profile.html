@@ -1,0 +1,47 @@
+{% extends 'base-two.html'%}
+{% block body %}
+
+this is profile page
+{% include 'account/message.html' %}
+{{username}}
+<h2>Published post</h2>
+<div class="d-flex flex-wrap">
+    {% for post in publishPost %}
+    <div class="card mx-2 my-2 shadow-lg  mb-5 bg-body rounded " style="width: 20rem; height: 100%;">
+        <img class="card-img-top img-fluid" style="object-fit: cover; height: 200px; width: 100%;" src="/media/{{post.image}}" alt="">
+       <div class="card-body">
+         <h5 class="card-title"><a href="{{post.get_absolute_url}}"  class="card-title text-center">{{post.title}}</a></h5>
+                    <!-- <a href="{{post.get_absolute_url}}" class="btn btn-primary">Read More</a> -->
+         <div class="card-body text-center">
+              Tag:
+              {% for tag in post.tags.all %}
+              <a href="{% url "blog:post_list_by_tag" tag.slug %}">
+                {{tag.name}}
+              </a>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+<h2>Draft Posts</h2>
+<div class="d-flex flex-wrap">
+    {% for post in draftPost %}
+    <div class="card mx-2 my-2 shadow-lg  mb-5 bg-body rounded " style="width: 20rem; height: 100%;">
+        <img class="card-img-top img-fluid" style="object-fit: cover; height: 200px; width: 100%;" src="/media/{{post.image}}" alt="">
+       <div class="card-body">
+         <h5 class="card-title"><a href="{{post.get_absolute_url}}"  class="card-title text-center">{{post.title}}</a></h5>
+                    <!-- <a href="{{post.get_absolute_url}}" class="btn btn-primary">Read More</a> -->
+         <div class="card-body text-center">
+              Tag:
+              {% for tag in post.tags.all %}
+              <a href="{% url "blog:post_list_by_tag" tag.slug %}">
+                {{tag.name}}
+              </a>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+{% endblock body %}

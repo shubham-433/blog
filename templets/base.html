@@ -1,0 +1,119 @@
+{% load blog_tags %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Ecommerce Site</title>
+  </head>
+  <body>
+   
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/blog">Home</a>
+            </li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="/accounts/logout">Logout</a>
+             </li>
+            <li>
+              <a class="nav-link" href="/accounts/profile">Profile</a>
+            </li>
+            <li>
+              <a class="nav-link">{{request.user}}</a>
+            </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/login">Login</a>
+          </li>
+          {% endif%}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">Disabled</a>
+            </li>
+          </ul>
+         
+          <form class="d-flex form-inline my-2 my-lg-0" method="post" action="{% url 'blog:search' %}">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    
+   
+     <div class="d-flex" >
+      <div class=" col-sm-9">
+        {% block body%} {% endblock body %}
+     </div>
+      <div id="sidebar"class="col-sm-3 bg-light shadow-lg p-3  bg-body rounded " style="min-height:100vh">
+        <!-- latest post  -->
+        <div>
+              <h2>my blog</h2>
+            <p>total number of blogs {% total_posts %}</p>
+            {% show_latest_posts %}
+        </div>
+ 
+         <!-- tags  -->
+         <div>
+            <h2>All Tags present in Post</h2>
+          {% get_all_tags as all_tags%}
+          <ol>
+            {% for tag in all_tags %}
+            
+              
+              <a class="text-decoration-none btn btn-outline-primary m-1" href="{% url "blog:post_list_by_tag" tag.slug %}">{{tag}}</a>
+          
+            {% endfor %}
+          </ol>
+         </div>
+
+         <!-- most comment post  -->
+        <div>
+          <h2>most comments post</h2>
+        {% get_most_commented_posts as most_commented_posts %}
+        <ol>
+          {% for post in most_commented_posts %}
+          <li>
+            <a class="text-decoration-none" href="{{post.get_absolute_url}}">{{post.title}}</a>
+          </li>
+            
+          {% endfor %}
+        </ol>
+        </div>
+
+       
+      </div>
+     </div>
+
+    </body>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" ></script>
+    
+</html>
