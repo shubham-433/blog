@@ -43,7 +43,7 @@ class LoginForm(AuthenticationForm):
     password =forms.CharField(label='password',widget= forms.PasswordInput(attrs={'class':'form-control'}))
 
 class AddBlogForm(forms.ModelForm):
-    Alltags = TagField(required=False, widget=LabelWidget)
+    # Alltags = TagField(required=False, widget=LabelWidget)
     body=forms.CharField(widget=FroalaEditor)
     class Meta:
         model=Post

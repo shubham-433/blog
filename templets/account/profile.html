@@ -11,6 +11,7 @@ this is profile page
         <img class="card-img-top img-fluid" style="object-fit: cover; height: 200px; width: 100%;" src="/media/{{post.image}}" alt="">
        <div class="card-body">
          <h5 class="card-title"><a href="{{post.get_absolute_url}}"  class="card-title text-center">{{post.title}}</a></h5>
+         <h5 class="card-title"><a href="{{post.get_absolute_url}}"  class="card-title text-center">{{post.author}}</a></h5>
                     <!-- <a href="{{post.get_absolute_url}}" class="btn btn-primary">Read More</a> -->
          <div class="card-body text-center">
               Tag:
@@ -20,6 +21,13 @@ this is profile page
               </a>
               {% endfor %}
           </div>
+         
+
+           <div>
+            <a href="{% url "blog:blog_update" post.slug %}" class="btn btn-outline-primary">Update</a>
+            <a href="{% url "blog:blog_delete" post.id %}" class="btn btn-outline-primary">Delete</a>
+           </div>
+         
         </div>
       </div>
     {% endfor %}
@@ -40,6 +48,10 @@ this is profile page
               </a>
               {% endfor %}
           </div>
+          <div>
+            <a href="{% url "blog:blog_update" post.slug %}" class="btn btn-outline-primary">Update</a>
+            <a href="{% url "blog:blog_delete" post.id %}" class="btn btn-outline-primary">Delete</a>
+           </div>
         </div>
       </div>
     {% endfor %}

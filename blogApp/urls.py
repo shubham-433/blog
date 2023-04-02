@@ -5,7 +5,7 @@ from django.urls import path
 app_name='blog'
 urlpatterns = [
    
-    # path("",views.index,name="BlogHome"),
+    path("",views.index,name="BlogHome"),
     path("blog/",views.post_list,name='post_list'),
     path('blog/tag/<slug:tag_slug>/',views.post_list,name='post_list_by_tag'),
     # path('post/<int:id>/',views.post_details,name='post_detail'),
@@ -24,7 +24,9 @@ urlpatterns = [
 
 
     # path('blog/addblog/',views.AddBlogView.as_view(),name='add-blog')
-    path('blog/addblog/',views.addBlog,name='addblog')
+    path('blog/addblog/',views.addBlog,name='addblog'),
+    path('blog/deleteblog/<int:id>/',views.blog_delete,name='blog_delete'),
+    path('blog/updateblog/<slug>/',views.blog_update,name='blog_update'),
 
 
 ]

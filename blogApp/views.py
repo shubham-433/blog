@@ -1,4 +1,4 @@
-from django.shortcuts import render,get_object_or_404,HttpResponseRedirect
+from django.shortcuts import render,get_object_or_404,HttpResponseRedirect,redirect
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from .models import Post
 from .forms import *
@@ -179,7 +179,7 @@ class UserProfileView(View):
         if request.user.is_authenticated:
             publishPost= Post.objects.filter(Q(author=request.user.id) & Q(status='PB'))
             draftPost= Post.objects.filter(Q(author=request.user.id) & Q(status='DF'))
-            print(publishPost)
+            # print(publishPost)
             context={
                 "username":request.user,
                 "publishPost":publishPost
@@ -257,3 +257,43 @@ def addBlog(request):
         print(e) 
         print("some eeror accour")   
     return render(request,'addBlog.html',context)
+
+
+
+def blog_delete(request,id):
+   
+    try:
+        post = Post.objects.get(id=id)
+        if post.author == request.user:
+            post.delete()
+            print('blog deleted')
+            return redirect('/accounts/profile/')
+        else:
+             return redirect('/accounts/profile/')
+    except Exception as e :
+        print(e)
+        return redirect('/accounts/profile/')
+
+
+def blog_update(request,slug):
+    contaxt={}
+    try:
+        post = Post.objects.get(slug=slug)
+        form= AddBlogForm(instance = post)
+        if post.author != request.user:
+            return redirect('/')
+        else :
+            # contaxt['post']=post
+            contaxt['form']=form
+        if request.method=='POST':
+            form= AddBlogForm(request.POST,instance=post)
+            form.save()
+            return redirect('/accounts/profile')
+        contaxt={
+            'form':form
+        }
+    except Exception as e :
+        print(e)
+
+    return render(request,'updateBlog.html',contaxt)
+
